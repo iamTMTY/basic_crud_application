@@ -32,7 +32,6 @@
     if(isset($_POST["sign_up"])) {
       $email = $_POST["email"];
       $password = $_POST["password"];
-      $date_of_birth = $_POST["date_of_birth"];
       $first_name = $_POST["first_name"];
       $surname = $_POST["surname"];
 
@@ -44,8 +43,10 @@
       //     "surname" => $surname
       // ];
 
+      $pass_hash = md5($password);
+
       $sql = "INSERT INTO users (first_name, last_name, email, password)
-      VALUES ('$first_name', '$surname', '$email', '$password');";
+      VALUES ('$first_name', '$surname', '$email', '$pass_hash');";
       
       if ($conn->multi_query($sql) === TRUE) {
         echo "<p> You have successfully registered, click <a href='login.php'> here </a> to login </p>";
@@ -100,7 +101,7 @@
         }
       }
       
-      user_exists($result,$email,$password);
+      user_exists($result,$email,md5($password));
 
       $conn->close();
 
@@ -108,9 +109,9 @@
       $email = $_POST["email"];
       $new_password = $_POST["new_password"];
 
+      $new_pass_hash = md5($new_password);
 
-
-      $sql = "UPDATE users SET password='$new_password' WHERE email='$email'";
+      $sql = "UPDATE users SET password='$new_pass_hash' WHERE email='$email'";
 
       if ($conn->query($sql) === TRUE) {
         echo "<p> Record updated successfully, click <a href='login.php'> here </a> to login </p>";
