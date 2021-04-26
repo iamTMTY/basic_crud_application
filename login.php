@@ -1,8 +1,9 @@
 <?php
   session_start();
 
-  if(isset($_SESSION["isLoggedIn"]) && $_SESSION["isLoggedIn"] === true) {
-    $_SESSION["isLoggedIn"] = false;
+  if(isset($_SESSION["user"])) {
+    header('Location: dashboard.php');
+    die();
   }
 ?>
 

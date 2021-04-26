@@ -1,5 +1,12 @@
 <?php
   session_start();
+
+  if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    
+    header("Location: index.php");
+    die();
+  }
+
   $servername = "localhost";
   $username = "root";
   $password = "";
@@ -35,13 +42,6 @@
       $first_name = $_POST["first_name"];
       $surname = $_POST["surname"];
 
-      // $user = [
-      //     "email" => $email,
-      //     "password" => $password, 
-      //     "date_of_birth" => $date_of_birth,
-      //     "first_name" => $first_name,
-      //     "surname" => $surname
-      // ];
 
       $pass_hash = md5($password);
 
@@ -62,16 +62,9 @@
         id INT(255) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
         course VARCHAR(255),
         tutor_name VARCHAR(255)
-        -- reg_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
       )";
 
       $conn->query($sql);
-      
-      // if ($conn->query($sql) === TRUE) {
-      //   echo "Table MyGuests created successfully";
-      // } else {
-      //   echo "Error creating table: " . $conn->error;
-      // }
 
       $conn->close();
 
@@ -88,13 +81,10 @@
           while($row = $result->fetch_assoc()) {
             // var_dump($row);
             if($row["email"] === $email && $row["password"] === $password) {
-              echo "logged in";
-              $_SESSION["isLoggedIn"] = true;
               $_SESSION["user"] = ["id" => $row["id"], "first_name" => $row["first_name"]];
               header("Location: dashboard.php");
               die();
             } 
-            // echo "email: " . $row["email"]. " ". "password: " . $row["password"]. " " . "<br>";
           }
 
           $_SESSION["login_err"] = "Invalid Email or Password";
@@ -133,11 +123,6 @@
 
       header("Location: dashboard.php");
 
-      // if ($conn->multi_query($sql) === TRUE) {
-      //   echo "<p> You have successfully registered, click <a href='login.php'> here </a> to login </p>";
-      // } else {
-      //   echo "Error: " . $sql . "<br>" . $conn->error;
-      // }
 
       $conn->close();
 
@@ -153,12 +138,6 @@
       $conn->multi_query($sql);
 
       header("Location: dashboard.php");
-
-      // if ($conn->multi_query($sql) === TRUE) {
-      //   echo "<p> You have successfully registered, click <a href='login.php'> here </a> to login </p>";
-      // } else {
-      //   echo "Error: " . $sql . "<br>" . $conn->error;
-      // }
 
       $conn->close();
 

@@ -67,7 +67,7 @@
       <input type="text" name="course_title" id="" value="<?php echo $course_details["course"] ?>" ><br>
       <label for="tutor_name"> Tutor Name </label><br>
       <input type="text" name="tutor_name" id="" value="<?php echo $course_details["tutor_name"] ?>" ><br>
-      <input type="submit" class="btn-type-2" value="edit course" name="edit_course">
+      <input type="submit" class="btn-type-2" value="save" name="edit_course">
     </form>
   </div>
 </body>
